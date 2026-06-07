@@ -2,25 +2,41 @@
 
 ## Overview
 
-Vocallabs Outreach Automation is a Node.js-based outreach pipeline that integrates multiple lead generation and email automation platforms.
+Vocallabs Outreach Automation is a Node.js-based lead generation and outreach automation system that integrates Ocean.io, Prospeo, and Brevo into a single automated pipeline.
 
-The system:
+The application accepts a company domain as input, discovers similar companies, enriches contact information, and performs automated outreach through email.
 
-1. Finds similar companies using Ocean.io
-2. Enriches company/person data using Prospeo
-3. Generates verified outreach contacts
-4. Sends personalized emails using Brevo
+This project was developed as part of the Vocallabs Software Development Internship Assignment.
 
 ---
 
 ## Features
 
-* Ocean.io company search integration
-* Prospeo person enrichment integration
-* Brevo email automation
+### Company Discovery
+
+* Search similar companies using Ocean.io
+* Dynamic domain input support
+* Automatic target company selection
+
+### Contact Enrichment
+
+* Find contact information using Prospeo
+* Retrieve email addresses and prospect details
+* Handle missing contacts gracefully
+
+### Email Automation
+
+* Send automated outreach emails using Brevo
+* Customizable email templates
+* End-to-end outreach workflow
+
+### Backend Features
+
 * REST API architecture using Express.js
-* Environment-based configuration
-* Modular service structure
+* Environment variable configuration
+* Modular service-based structure
+* Error handling and logging
+* JSON execution summaries
 
 ---
 
@@ -31,13 +47,13 @@ The system:
 * Node.js
 * Express.js
 
-### APIs
+### APIs & Services
 
-* Ocean.io API
-* Prospeo API
-* Brevo API
+* Ocean.io
+* Prospeo
+* Brevo
 
-### Tools
+### Libraries
 
 * Axios
 * Dotenv
@@ -50,23 +66,31 @@ The system:
 ```text
 vocallabs-outreach/
 │
+├── data/
+│   └── leads.json
+│
 ├── routes/
-│   └── outreach.js
+│   ├── outreach.js
+│   └── email.js
 │
 ├── services/
 │   ├── ocean.js
 │   ├── prospeo.js
-│   └── brevoService.js
+│   ├── brevoService.js
+│   └── hunter.js
 │
 ├── .env
 ├── server.js
 ├── package.json
+├── package-lock.json
 └── README.md
 ```
 
+---
+
 ## Environment Variables
 
-Create a `.env` file:
+Create a `.env` file in the root directory:
 
 ```env
 PORT=5000
@@ -82,10 +106,16 @@ BREVO_API_KEY=your_brevo_api_key
 
 ## Installation
 
-Clone repository:
+Clone the repository:
 
 ```bash
-git clone https://github.com/yourusername/vocallabs-outreach.git
+git clone https://github.com/Xatyam07/vocallabs-outreach.git
+```
+
+Move into the project directory:
+
+```bash
+cd vocallabs-outreach
 ```
 
 Install dependencies:
@@ -94,17 +124,23 @@ Install dependencies:
 npm install
 ```
 
-Start server:
+Start the server:
 
 ```bash
 node server.js
+```
+
+Server runs on:
+
+```text
+http://localhost:5000
 ```
 
 ---
 
 ## API Endpoints
 
-### Home
+### Health Check
 
 ```http
 GET /
@@ -127,7 +163,7 @@ Response:
 GET /test-email
 ```
 
-Sends a test email using Brevo.
+Tests email delivery through Brevo.
 
 ---
 
@@ -137,7 +173,7 @@ Sends a test email using Brevo.
 GET /test-ocean
 ```
 
-Tests Ocean.io company search integration.
+Tests Ocean.io company discovery.
 
 ---
 
@@ -147,7 +183,21 @@ Tests Ocean.io company search integration.
 GET /test-prospeo
 ```
 
-Tests Prospeo enrichment integration.
+Tests contact enrichment through Prospeo.
+
+---
+
+### Run Full Pipeline
+
+```http
+GET /run-pipeline?domain=hubspot.com
+```
+
+Example:
+
+```http
+GET /run-pipeline?domain=hubspot.com
+```
 
 ---
 
@@ -157,35 +207,80 @@ Tests Prospeo enrichment integration.
 Input Domain
       │
       ▼
- Ocean.io
+Ocean.io Search
       │
       ▼
- Similar Companies
+Similar Companies Found
       │
       ▼
-   Prospeo
+Select Target Company
       │
       ▼
- Contact Enrichment
+Prospeo Enrichment
       │
       ▼
-    Brevo
+Contact Discovery
       │
       ▼
- Outreach Email
+Brevo Email Outreach
+      │
+      ▼
+Execution Summary
 ```
+
+---
+
+## Sample Response
+
+```json
+{
+  "success": true,
+  "message": "Pipeline executed successfully",
+  "summary": {
+    "inputDomain": "hubspot.com",
+    "companiesFound": 10,
+    "selectedCompany": "wthubspot.com",
+    "contactFound": false,
+    "emailReady": false
+  }
+}
+```
+
+---
+
+## Assignment Notes
+
+* Implemented Ocean.io integration for company discovery.
+* Implemented Prospeo integration for contact enrichment.
+* Implemented Brevo integration for email outreach.
+* Added dynamic domain input support.
+* Added automatic target company selection.
+* Added execution summary response.
+* Added error handling for missing contacts.
+* Built modular and reusable service architecture.
+
+### Note About Eazyreach
+
+According to the assignment FAQ provided by Vocallabs, Eazyreach credits were unavailable. Therefore, Prospeo was used as the alternative solution for contact discovery and enrichment.
+
+---
+
+## Future Improvements
+
+* Frontend dashboard
+* Database integration
+* Bulk domain processing
+* Automated campaign tracking
+* CRM integration
+* Scheduled outreach campaigns
 
 ---
 
 ## Author
 
-Satyam Mishra
+### Satyam Mishra
 
-Computer Science Engineering
-
+B.Tech Computer Science Engineering
 PSIT Kanpur
 
 GitHub: https://github.com/Xatyam07
-
-
-Made By Satyam Mishra
